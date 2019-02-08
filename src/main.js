@@ -14,10 +14,10 @@ Vue.http.interceptors.push((request, next) => {
     next((response) => {
         if (403 === response.status) {
             // 以下只是示范，也可以替换成其他的，比如 response.body 替换成其他的 json 对象，status 替换成 200 ，然后在请求里边应该就可以使用 then() 的第一个函数参数定义这个 404 回调了
-            window.location.href = '/web/#/login';
+            window.location.href = '/#/login';
         } else if (302 === response.status) {
             //后台返回 302 表示登陆成功,可直接进入主页
-            window.location.href = '/web/#/'
+            window.location.href = '/#/'
         } else if (200 === response.status) {
             if (response.body.status !== 1) {
                 window.console.error(`${description}失败，原因: ${response.body.msg}`);
