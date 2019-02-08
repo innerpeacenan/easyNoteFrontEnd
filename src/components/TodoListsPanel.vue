@@ -41,7 +41,6 @@
             // 移除之前绑定的所有事件,值绑定这一个
             state.eventBus.$off(state.events.shouldGetTodoList);
             state.eventBus.$on(state.events.shouldGetTodoList, (item) => {
-                window.console.log(state.events.shouldGetTodoList)
                 this.getList(item)
             })
         },
@@ -96,23 +95,5 @@
 </script>
 
 <style scoped>
-    .collection {
-        text-decoration: none;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        margin-left: 5px;
-        padding-left: 15px;
-        padding-top: 5px;
-        padding-right: 5px;
-        padding-bottom: 5px;
-        /*display: list-item;*/
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: rgba(255, 255, 255, 1);
-    }
 
-    .collection_header {
-        margin-bottom: 10px;
-        border-bottom: 3px solid #ccc;
-    }
 </style>

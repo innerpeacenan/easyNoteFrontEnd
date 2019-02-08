@@ -4,7 +4,7 @@ module.exports = {
     baseUrl: '/web/',
     outputDir: '../public/web/',
     // 生产环境是否生成 sourceMap 文件
-    productionSourceMap: true,
+    // productionSourceMap: true,
     // 服务器端口号
     devServer: {
         disableHostCheck: true,

@@ -83,11 +83,11 @@
     }
 </script>
 
-<style scoped>
+<style>
     #username {
         background-repeat: no-repeat;
         background-position: 2px -65px;
-        background-image: url("<%= BASE_URL %>/img/input_icons_24.png");
+        background-image: url("/web/img/input_icons_24.png");
         background-attachment: scroll;
         line-height: 2em;
         padding-left: 30px;
@@ -96,14 +96,14 @@
     #username:focus {
         background-repeat: no-repeat;
         background-position: 2px -105px;
-        background-image: url("<%= BASE_URL %>/img/input_icons_24.png");
+        background-image: url("/web/img/input_icons_24.png");
         background-attachment: scroll;
     }
 
     #passwd {
         background-repeat: no-repeat;
         background-position: 2px -144px;
-        background-image: url("<%= BASE_URL %>/img/input_icons_24.png");
+        background-image: url("/web/img/input_icons_24.png");
         background-attachment: scroll;
         line-height: 2em;
         padding-left: 30px;
@@ -112,7 +112,7 @@
     #passwd:focus {
         background-repeat: no-repeat;
         background-position: 2px -185px;
-        background-image: url("<%= BASE_URL %>/img/input_icons_24.png");
+        background-image: url("/web/img/input_icons_24.png");
         background-attachment: scroll;
     }
 </style>

@@ -84,13 +84,11 @@
             // 移除之前绑定的所有事件,值绑定这一个
             state.eventBus.$off(state.events.shouldGetDescription);
             state.eventBus.$on(state.events.shouldGetDescription, (item) => {
-                window.console.log(state.events.shouldGetDescription)
                 this.getDescription(item)
             })
         },
         methods: {
             getDescription(item) {
-                window.console.log(item)
                 if(!item.description){
                     item.description = ' ';
                 }
@@ -169,125 +167,4 @@
 </script>
 
 <style scoped>
-    /* 设置笔记距离页面顶部的边距*/
-    #itemDescription {
-        margin-top: 1em;
-    }
-
-    /*笔记的输入文本框*/
-
-    .textarea {
-        width: 100%;
-        min-width: 100%;
-        /*display: table; !* 这一条语句清除浮动特别有用*!*/
-        margin: 0 0 10px;
-        padding: 9px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: rgba(255, 255, 255, 1);
-        font-size: 13px;
-        line-height: 1.42857143;
-        color: #333;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
-
-    /*消除bootstrap 默认的段落设置*/
-    .textarea ul li p {
-        margin-top: 0;
-        margin-right: 0;
-        margin-bottom: 0;
-        margin-left: 0;
-        -webkit-margin-before: 0;
-        -webkit-margin-after: 0;
-        -webkit-margin-start: 0;
-        -webkit-margin-end: 0;
-    }
-
-    /*
-      *****************************************************************************************************************
-      以下是拷贝的一套css样式,先试用吧
-      *****************************************************************************************************************
-     */
-    table {
-        *border-collapse: collapse; /* IE7 and lower */
-        border-spacing: 0;
-        width: 100%;
-    }
-
-    table {
-        border: solid #ccc 1px;
-        -moz-border-radius: 6px;
-        -webkit-border-radius: 6px;
-        border-radius: 6px;
-        /*-webkit-box-shadow: 0 1px 1px #ccc;
-        -moz-box-shadow: 0 1px 1px #ccc;
-        box-shadow: 0 1px 1px #ccc;   */
-    }
-
-    table tr:hover {
-        background: #fbf8e9;
-        -o-transition: all 0.1s ease-in-out;
-        -webkit-transition: all 0.1s ease-in-out;
-        -moz-transition: all 0.1s ease-in-out;
-        -ms-transition: all 0.1s ease-in-out;
-        transition: all 0.1s ease-in-out;
-    }
-
-    table td, .table th {
-        border-left: 1px solid #ccc;
-        border-top: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    table th {
-        background-color: #dce9f9;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
-        background-image: -webkit-linear-gradient(to top, #ebf3fc, #dce9f9);
-        background-image: -moz-linear-gradient(to top, #ebf3fc, #dce9f9);
-        background-image: -ms-linear-gradient(to top, #ebf3fc, #dce9f9);
-        background-image: -o-linear-gradient(to top, #ebf3fc, #dce9f9);
-        background-image: linear-gradient(to top, #ebf3fc, #dce9f9);
-        /*-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-        -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
-        box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;*/
-        border-top: none;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
-        padding: 5px;
-    }
-
-    table td:first-child, table th:first-child {
-        border-left: none;
-    }
-
-    table th:first-child {
-        -moz-border-radius: 6px 0 0 0;
-        -webkit-border-radius: 6px 0 0 0;
-        border-radius: 6px 0 0 0;
-    }
-
-    table th:last-child {
-        -moz-border-radius: 0 6px 0 0;
-        -webkit-border-radius: 0 6px 0 0;
-        border-radius: 0 6px 0 0;
-    }
-
-    table th:only-child {
-        -moz-border-radius: 6px 6px 0 0;
-        -webkit-border-radius: 6px 6px 0 0;
-        border-radius: 6px 6px 0 0;
-    }
-
-    table tr:last-child td:first-child {
-        -moz-border-radius: 0 0 0 6px;
-        -webkit-border-radius: 0 0 0 6px;
-        border-radius: 0 0 0 6px;
-    }
-
-    table tr:last-child td:last-child {
-        -moz-border-radius: 0 0 6px 0;
-        -webkit-border-radius: 0 0 6px 0;
-        border-radius: 0 0 6px 0;
-    }
 </style>
