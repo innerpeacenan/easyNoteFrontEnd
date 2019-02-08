@@ -19,7 +19,7 @@ export default new Router({
         },
         {
             path:'/logout',
-            component: () => import(/* webpackChunkName: "LogIn" */ './views/LogOut.vue')
+            component: () => import(/* webpackChunkName: "LogIn" */ './views/LogIn.vue')
         },
         {
             path:'/backup/notes',

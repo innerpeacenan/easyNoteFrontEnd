@@ -28,11 +28,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="button" v-on:click.stop="doLogin()" class="btn btn-default">登录</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <a class="pull-right" id="register">注册</a>
+                            <button type="button" v-on:click.stop="logout()" class="btn btn-default pull-right">登出</button>
                         </div>
                     </div>
                 </form>
@@ -45,6 +41,9 @@
 <script>
     export default {
         name: "LogIn",
+        created(){
+            this.logout();
+        },
         data() {
             return {
                 // 默认设置想,默认展示左侧事项列表
@@ -76,6 +75,18 @@
                 }, (response) => {
                     if (302 !== response.status) {
 //
+                    }
+                });
+            },
+            logout(){
+                const path = this.$store.state.urls.logout
+                const description = path.description
+                let params = {}
+                this.$http.post(path, params).then((response) => {
+                    if (response.body.status !== 1) {
+                        window.window.console.error(`${description}失败，原因: ${response.body.msg}`);
+                    } else {
+                        // 登陆成功
                     }
                 });
             },
