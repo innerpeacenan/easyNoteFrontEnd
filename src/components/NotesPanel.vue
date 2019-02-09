@@ -61,7 +61,7 @@
                             </tbody>
                         </table>
                         <div class="textarea" v-if="!note.seen" @dblclick.stop="edit(note)" v-html="note.md"
-                             v-highlightjs>
+                             >
                         </div>
                     </div>
                 </li>
@@ -75,6 +75,11 @@
     import marked from 'marked'
     import hljs from 'highlight.js'
     import 'highlight.js/styles/github.css';
+    marked.setOptions({
+        highlight: function (code) {
+            return hljs.highlightAuto(code).value;
+        }
+    });
 
     export default {
         name: "NotesPanel",
@@ -84,18 +89,18 @@
                     el.focus()
                 }
             },
-            highlightjs: {
-                inserted: function (el) {
-                    let blocks = el.querySelectorAll('pre code');
-                    Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-                },
-                update: function (el, binding, vnode, oldVnode) {
-                    if (vnode.data.domProps.innerHTML !== oldVnode.data.domProps.innerHTML) {
-                        let blocks = el.querySelectorAll('pre code');
-                        Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-                    }
-                }
-            },
+            // highlightjs: {
+            //     inserted: function (el) {
+            //         let blocks = el.querySelectorAll('pre code');
+            //         Array.prototype.forEach.call(blocks, hljs.highlightBlock);
+            //     },
+            //     update: function (el, binding, vnode, oldVnode) {
+            //         if (vnode.data.domProps.innerHTML !== oldVnode.data.domProps.innerHTML) {
+            //             let blocks = el.querySelectorAll('pre code');
+            //             Array.prototype.forEach.call(blocks, hljs.highlightBlock);
+            //         }
+            //     }
+            // },
         },
         data() {
             return {
