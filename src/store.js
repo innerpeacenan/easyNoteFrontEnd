@@ -7,7 +7,7 @@ export default new Vuex.Store({
     state: {
         urls: {
             image : {
-                'path': "/image/base64",
+                'path': "/image/save",
                 'description': '保存图片',
             },
             logout: {

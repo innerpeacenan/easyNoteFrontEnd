@@ -156,10 +156,14 @@
                         // 针对插入的情况下,取出最后插入的主键  这里有个bug
                         if (parseInt(item.id) === 0) {
                             item.id = data.id
-                            item.rank = data.rank
+                            if(data.rank){
+                                item.rank = data.rank
+                            }
                         }
                         item.seen = false;
-                        this.sort();
+                        if(item.rank){
+                            this.sort();
+                        }
                     }
                 })
             },
