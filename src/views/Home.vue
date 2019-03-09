@@ -24,11 +24,11 @@
     import ItemDescription from "../components/ItemDescription";
 
     export default {
-        name: 'Home' ,
+        name: 'Home',
         data() {
             return {
                 // 默认设置想,默认展示左侧事项列表
-                settings:{
+                settings: {
                     seen_items: 1
                 }
             }

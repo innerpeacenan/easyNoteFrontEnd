@@ -7,9 +7,7 @@
             <router-link to="/backup/items" class="col-xs-3 AppHeader-navItem">归档事项</router-link>
             <router-link to="/logout" class="col-xs-3 AppHeader-navItem">登出</router-link>
         </header>
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
     </div>
 </template>
 

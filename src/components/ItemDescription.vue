@@ -152,15 +152,18 @@
                 this.modifiedContent = this.description
                 this.seen = true
             },
-            save() {
+            save(onlySave) {
                 let state = this.$store.state
                 this.description = this.modifiedContent
                 // 修改item属性对接的值
                 this.item.description = this.description
                 this.md = marked(this.description)
-                this.seen = false
+                if (!onlySave) {
+                    // 不管有没有实际更新数据,都自动保存数据
+                    this.seen = false
+                }
+
                 state.eventBus.$emit(state.events.saveItem, this.item)
-                window.console.log('save items')
             }
         }
     }
