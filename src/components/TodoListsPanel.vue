@@ -1,8 +1,9 @@
 <template>
     <div class="panel-heading">
-        <div>当前日期:<a class="glyphicon glyphicon-chevron-left" @click.stop.prevent="minusDate()" title="查看前一天"></a>{{this.getDateString()}}<a class="glyphicon glyphicon-chevron-right" @click.stop.prevent="addDate()" title="查看后一天"></a></div>
+        <span v-if="collections.length">当前日期:<a class="glyphicon glyphicon-chevron-left" @click.stop.prevent="minusDate()" title="查看前一天"></a>{{getDateString()}}<a class="glyphicon glyphicon-chevron-right" @click.stop.prevent="addDate()" title="查看后一天"></a></span>
         <div class="collection" v-for="(collection,ck) in collections" :key="ck"
              :id="'collections_' + collection.id">
+
             <ul>
                 <li class="collection_header">
                 <span>
