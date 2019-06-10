@@ -16,7 +16,6 @@ module.exports = {
         port: 86,
         proxy: {
             '/': {
-                //https://fullsmilespace.com/?p=304
                 ws: false, // proxy websockets
                 target: 'http://60.205.214.153:86',
                 changeOrigin: true,

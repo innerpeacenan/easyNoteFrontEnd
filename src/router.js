@@ -15,16 +15,20 @@ export default new Router({
         },
         {
             path: '/login',
-            component: () => import(/* webpackChunkName: "LogIn" */ './views/LogIn.vue')
+            component: () => import('./views/LogIn.vue')
         },
         {
             path:'/logout',
-            component: () => import(/* webpackChunkName: "LogIn" */ './views/LogIn.vue')
+            component: () => import('./views/LogIn.vue')
         },
         {
             path:'/backup/notes',
-            component: () => import(/* webpackChunkName: "LogIn" */ './views/BackupNotes.vue')
-        }
+            component: () => import( './views/Home.vue'),
+        },
+        {
+            path:'/signUp/later',
+            component: () => import( './views/SignUpLater.vue')
+        },
         // {
         //   path: '/items',
         //   name: 'items',

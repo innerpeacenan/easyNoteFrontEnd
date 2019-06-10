@@ -27,11 +27,12 @@
         name: 'Home',
         data() {
             return {
-                // 默认设置想,默认展示左侧事项列表
                 settings: {
-                    seen_items: 1
+                    seen_items: 1,//默认展示左侧事项列表
                 }
             }
+        },
+        computed: {
         },
         components: {
             ItemDescription,

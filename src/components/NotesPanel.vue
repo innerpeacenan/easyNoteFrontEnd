@@ -3,53 +3,39 @@
         <div>
             <ul>
                 <li v-for="(note,index) in notes" :key="index" :id="'note_' + note.id">
-                    <span class="hidden-xs" title="创建时间">{{note.c_time}}</span>
-                    <span>
-                    <select title="选择其他目录,则自动将笔记移动到其他目录下了" class="items" v-model="note.item_id"
-                            @change="mv(note,index)">
-                        <template v-if="note.item_id == item.id">
-                            <option
-                                    v-for="(item, optIndex) in items" :key="optIndex"
-                                    :value="item.id" selected>{{item.name}}</option>
-                            </template>
-                            <template v-else>
-                            <option
-                                    v-for="(item, optIndex) in items" :key="optIndex"
-                                    :value="item.id">{{item.name}}</option>
-                        </template>
-                    </select>
-                    </span>
-                    <div class="pull-right action-buttons">
-                <span @click.stop="done(note, index)">
-                    <input type="checkbox" title="标记完成" v-model="note.isChecked"/>
-                </span>
+                    <span class="hidden-xs" title="创建时间">{{note.createdAt}}</span>
+                    <span class="pull-right action-buttons">
+                        <span @click.stop="done(note, index)">
+                            <input type="checkbox" title="标记完成" v-model="note.isChecked"/>
+                        </span>
                         <span @click.stop="add()">
-                    <a class="glyphicon glyphicon-plus-sign" title="添加笔记">
-                    </a>
-                </span>
+                             <a class="glyphicon glyphicon-plus-sign" title="添加笔记"></a>
+                        </span>
                         &nbsp;
                         <span @click.stop="edit(note, $event)">
-                    <a class="glyphicon glyphicon-edit" title="编辑笔记">
-                    </a>
-                </span>
+                            <a class="glyphicon glyphicon-edit" title="编辑笔记"></a>
+                        </span>
                         &nbsp;
                         <span @click.stop="save(note)">
-                    <a class="glyphicon glyphicon-saved" title="保存笔记">
-                    </a>
-                </span>
+                            <a class="glyphicon glyphicon-saved" title="保存笔记"></a>
+                        </span >
                         &nbsp;&nbsp;
                         <span @click.stop="" @dblclick="del(index)">
-                    <a class="glyphicon glyphicon-trash" title="双击删除笔记"></a>
-                </span>
-                    </div>
-                    <div>
-                <textarea class="col-xs-12" v-if="note.seen" v-model="note.modifiedContent"
-                          @keydown.ctrl.83.prevent="save(note, 1)"
-                          @keyup.esc="save(note)"
-                          @keyup.enter="h($event)" @focus="h($event, note)" @paste="image($event, note)"
-                          v-focus>
-                </textarea>
+                            <a class="glyphicon glyphicon-trash" title="双击删除笔记"></a>
+                        </span>
+                    </span>
+                    <span class="clearfix"></span>
+                    <span><v-select :placeholder="placeholder" multiple :options="items" label="name"
+                                    :close-on-select="false"  @input="setRelatedItems(note, index)" v-model="note.relatedItems"></v-select>
+                    </span>
 
+                    <div>
+                        <textarea class="col-xs-12" v-if="note.seen" v-model="note.modifiedContent"
+                                  @keydown.ctrl.83.prevent="save(note, 1)"
+                                  @keyup.esc="save(note)"
+                                  @keyup.enter="h($event)" @focus="h($event, note)" @paste="image($event, note)"
+                                  v-focus>
+                        </textarea>
                         <table class="table"
                                v-if="note.seen  && undefined !== note.pictures && note.pictures.length > 0">
                             <thead>
@@ -60,8 +46,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="textarea" v-if="!note.seen" @dblclick.stop="edit(note)" v-html="note.md"
-                             >
+                        <div class="textarea" v-if="!note.seen" @dblclick.stop="edit(note)" v-html="note.md">
                         </div>
                     </div>
                 </li>
@@ -75,6 +60,10 @@
     import marked from 'marked'
     import hljs from 'highlight.js'
     import 'highlight.js/styles/github.css';
+    import vSelect from 'vue-select'
+
+    import 'vue-select/dist/vue-select.css';
+
     marked.setOptions({
         highlight: function (code) {
             return hljs.highlightAuto(code).value;
@@ -83,24 +72,17 @@
 
     export default {
         name: "NotesPanel",
+        props: [
+        ],
+        components: {
+            'v-select': vSelect,
+        },
         directives: {
             focus: {
                 inserted: function (el) {
                     el.focus()
                 }
             },
-            // highlightjs: {
-            //     inserted: function (el) {
-            //         let blocks = el.querySelectorAll('pre code');
-            //         Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-            //     },
-            //     update: function (el, binding, vnode, oldVnode) {
-            //         if (vnode.data.domProps.innerHTML !== oldVnode.data.domProps.innerHTML) {
-            //             let blocks = el.querySelectorAll('pre code');
-            //             Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-            //         }
-            //     }
-            // },
         },
         data() {
             return {
@@ -111,12 +93,12 @@
                 constant: {
                     status: {
                         enable: {
-                            code: 10,
+                            code: 1,
                             // 后端的默认状态
                             desc: "有效且已保存"
                         },
                         disable: {
-                            code: 20,
+                            code: 0,
                             desc: "未保存"
                         }
                     }
@@ -132,7 +114,8 @@
                  * 记录当前的items,页面下拉选择框需要用到,
                  * Items实例对象列表
                  */
-                items: []
+                items: [],
+                placeholder: 'Choose a student..',
             }
         },
         created() {
@@ -171,15 +154,37 @@
             }
         },
         methods: {
+            setRelatedItems(note, index) {
+                let items = note.relatedItems
+                let len = items.length
+                let itemIds = [];
+                for (let i =0;i < len;i++){
+                      let item = items[i]
+                      itemIds.push(item.id);
+                }
+                window.console.log(itemIds, note.id)
+                let path = this.$store.state.urls.setItems
+                let params = {
+                    note_id: note.id,
+                    item_ids: itemIds,
+                }
+                this.$http.post(path, params).then((response) => {
+                    if (response.body.status !== 1) {
+                        // 如果发生错误,暂时屏蔽错误
+                    } else {
+                      //
+                    }
+                })
+            },
             now() {
                 let todayTime = new Date();
-                let month = todayTime.getMonth() + 1;
-                let day = todayTime.getDate();
-                let year = todayTime.getFullYear();
-                let hours = todayTime.getHours();
-                let minutes = todayTime.getMinutes();
-                let seconds = todayTime.getSeconds();
-                return year + '-' + month + "-" + day + "-" + hours + ":" + minutes + ":" + seconds;
+                let month = todayTime.getMonth() + 1
+                let day = todayTime.getDate()
+                let year = todayTime.getFullYear()
+                let hours = todayTime.getHours()
+                let minutes = todayTime.getMinutes()
+                let seconds = todayTime.getSeconds()
+                return year + '-' + month + "-" + day + "-" + hours + ":" + minutes + ":" + seconds
             },
             newNote() {
                 let itemId = typeof this.item === 'undefined' ? 0 : this.item.id;
@@ -187,10 +192,11 @@
                     id: 0,
                     item_id: itemId,
                     content: "",
-                    c_time: this.now(),
+                    createdAt: this.now(),
                     seen: true,
                     modifiedContent: "",
                     pictures: [],
+                    relatedItems : [],
                 };
             },
             // 处理实际获取笔记的工作
@@ -200,7 +206,10 @@
                     return;
                 }
                 let path = this.$store.state.urls.getNotes
-                
+                if('/backup/notes' === this.$route.path){
+                    path = this.$store.state.urls.getBackupNotes
+                }
+                window.console.log('this.$route.path', path)
                 let config = {
                     params: {
                         item_id: item.id,
@@ -269,11 +278,11 @@
                         if (blob) {
                             let text = $event.target;
                             let path = this.$store.state.urls.image
-                            
+
                             let params = new FormData();
                             params.append('img', blob);
-                            this.$http.post(path, params,{
-                                headers: { 'Content-Type': 'multipart/form-data' }
+                            this.$http.post(path, params, {
+                                headers: {'Content-Type': 'multipart/form-data'}
                             }).then((response) => {
                                 if (response.body.status !== 1) {
                                     //
@@ -309,18 +318,20 @@
                 note.seen = true
             },
             save(note, onlySave) {
-                if (!note.item_id) {
-                    return
-                }
+
                 // 将原来的及时更新改为非及时，以提高性能
                 note.content = note.modifiedContent;
                 let path = this.$store.state.urls.saveNote
-                
+
                 let params = {
                     id: note.id,
-                    item_id: note.item_id,
                     content: note.content,
                 }
+                // 如果笔记暂无对应的事项,将当前事项作为笔记的一个关联事项
+                if(!note.relatedItems.length){
+                    params.item_id = this.item.id;
+                }
+
                 this.$http.post(path, params).then((response) => {
                     if (response.body.status !== 1) {
                         //
@@ -329,8 +340,10 @@
                         if (0 == note.id) {
                             note.id = data.id
                         }
+                        note.relatedItems = data.relatedItems
                         // 如果为提交的时候,渲染markdown,否则不渲染对应的markdown
                         note.md = marked(note.content)
+
                     }
                     if (!onlySave) {
                         // 不管有没有实际更新数据,都自动保存数据
@@ -345,7 +358,7 @@
              */
             del(index) {
                 let path = this.$store.state.urls.deleteNote
-                
+
                 let config = {
                     body: {
                         id: this.notes[index].id
@@ -364,7 +377,7 @@
             },
             mv(note, index) {
                 let path = this.$store.state.urls.moveNote
-                
+
                 let params = {
                     id: note.id,
                     itemId: note.item_id
@@ -390,7 +403,7 @@
             },
             done(note, index) {
                 let path = this.$store.state.urls.noteDone
-                
+
                 let params = {
                     note_id: note.id,
                 }
@@ -410,5 +423,7 @@
 </script>
 
 <style scoped>
-
+    #value {
+        margin-top: 100px
+    }
 </style>

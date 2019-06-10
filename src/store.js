@@ -50,6 +50,10 @@ export default new Vuex.Store({
                 'path': "/item/todo-list",
                 'description': '待办列表'
             },
+            apiTest:{
+                'path': "/api/test",
+                'description': 'API接口测试'
+            },
             todoDoneToday: {
                 'path': "/item/todo-done-today",
                 'description': '完成事项列表'
@@ -69,6 +73,10 @@ export default new Vuex.Store({
             moveNote: {
                 'path': '/note/move-note',
                 'description': '改变笔记所属的事项',
+            },
+            setItems: {
+                'path':"/note/setItems",
+                'description':"设置笔记所述的事项列表",
             },
             saveNote: {
                 'path': "/note/note",

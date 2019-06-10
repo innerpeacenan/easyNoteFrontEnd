@@ -87,7 +87,6 @@
                         }
                     },
                 },
-                //@nxn 考虑下0和1的区别
                 runtimeState: {
                     fid: '',
                     drag_from: {}, // 拖动的item
@@ -106,7 +105,7 @@
             // 参数fid放到url里边去处理
             //https://router.vuejs.org/guide/essentials/dynamic-matching.html
             //https://stackoverflow.com/questions/48446709/vuejs-how-to-get-access-to-router-parameter-in-this-component
-            this.runtimeState.fid = this.$route.params.fid ? this.$route.params.fid : '';
+            this.runtimeState.fid = this.$route.query.fid ? this.$route.query.fid : '';
             this.getItems();
             let state = this.$store.state;
             state.eventBus.$off(state.events.saveItem);
