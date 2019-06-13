@@ -3,7 +3,8 @@
         <div>
             <ul>
                 <li v-for="(note,index) in notes" :key="index" :id="'note_' + note.id">
-                    <span class="hidden-xs" title="创建时间">{{note.createdAt}}</span>
+                    <span class="hidden-xs">创建于{{note.createdAt}}</span>
+                    <span class="hidden-xs">;更新于{{note.updatedAt}}</span>
                     <span class="pull-right action-buttons">
                         <span @click.stop="done(note, index)">
                             <input type="checkbox" title="标记完成" v-model="note.isChecked"/>
@@ -151,7 +152,10 @@
                     // 页面刚加载进来的时候,不显示
                     return 0
                 }
-            }
+            },
+            isBackUp(){
+                return '/backup/notes' === this.$route.path
+            },
         },
         methods: {
             setRelatedItems(note, index) {
@@ -206,7 +210,7 @@
                     return;
                 }
                 let path = this.$store.state.urls.getNotes
-                if('/backup/notes' === this.$route.path){
+                if(this.isBackUp){
                     path = this.$store.state.urls.getBackupNotes
                 }
                 window.console.log('this.$route.path', path)
@@ -326,6 +330,10 @@
                 let params = {
                     id: note.id,
                     content: note.content,
+                    is_backup:0,
+                }
+                if(this.isBackUp){
+                    params.is_backup = 1
                 }
                 // 如果笔记暂无对应的事项,将当前事项作为笔记的一个关联事项
                 if(!note.relatedItems.length){
@@ -406,6 +414,9 @@
 
                 let params = {
                     note_id: note.id,
+                }
+                if(this.isBackUp){
+                    params.is_recovery = 1
                 }
                 this.$http.put(path, params).then((response) => {
                     if (response.body.status !== 1) {
